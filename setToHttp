@@ -1,0 +1,22 @@
+public static void setToHttp(HttpServletResponse response, String jsonObject) {
+		PrintWriter writer = null;
+		try {
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("application/json;charset=utf-8");
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Access-Control-Allow-Origin", "*");
+			writer = response.getWriter();
+			if (jsonObject != null) {
+				writer.write(jsonObject.toString());
+			}
+			writer.flush();
+		} catch (IOException e) {
+			throw new ControllerException("发生输出IO异常！", e);
+		} catch (Exception e) {
+			throw new ControllerException("发生调用异常！", e);
+		} finally {
+			if (writer != null) {
+				writer.close();
+			}
+		}
+	}
